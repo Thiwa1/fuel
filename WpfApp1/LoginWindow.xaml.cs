@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using WpfApp1.Data;
 using WpfApp1.Models;
 
@@ -11,6 +12,33 @@ namespace WpfApp1
         public LoginWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                using (var context = new PayBillDbContext())
+                {
+                    if (context.Database.CanConnect())
+                    {
+                        txtConnectionStatus.Text = "Connected to Database";
+                        txtConnectionStatus.Foreground = Brushes.Green;
+                    }
+                    else
+                    {
+                        txtConnectionStatus.Text = "Not Connected to Database";
+                        txtConnectionStatus.Foreground = Brushes.Red;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                txtConnectionStatus.Text = $"Connection Failed: {ex.Message}";
+                txtConnectionStatus.Foreground = Brushes.Red;
+                // Log the full exception details if logging were implemented
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
