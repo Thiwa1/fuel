@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Login - Pay Bill System" Height="500" Width="800" WindowStartupLocation="CenterScreen"
+        Title="Login - Pay Bill System" Height="550" Width="850" WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded" ResizeMode="NoResize" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
     <Border CornerRadius="20" Background="White" Margin="20">
@@ -24,6 +24,17 @@
                     <Ellipse Width="80" Height="80" Fill="White" Margin="0,0,0,20"/>
                     <TextBlock Text="Pay Bill" Foreground="White" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center"/>
                     <TextBlock Text="System Pro" Foreground="#E0F2F1" FontSize="18" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+
+                    <!-- DB Settings Toggle -->
+                    <Button x:Name="btnToggleSettings" Content="Database Settings" Click="BtnToggleSettings_Click"
+                            Background="Transparent" Foreground="#E0F2F1" BorderThickness="1" BorderBrush="#E0F2F1"
+                            Padding="10,5" Margin="0,40,0,0" Cursor="Hand" FontSize="12">
+                         <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                 </StackPanel>
             </Border>
 
@@ -32,7 +43,8 @@
                 <Button Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-20,-20,0" Width="30" Height="30"
                         Background="Transparent" Foreground="Gray" BorderThickness="0" Click="BtnClose_Click" Cursor="Hand" FontSize="16" FontWeight="Bold"/>
 
-                <StackPanel VerticalAlignment="Center">
+                <!-- Login Panel -->
+                <StackPanel x:Name="pnlLogin" VerticalAlignment="Center" Visibility="Visible">
                     <TextBlock Text="Welcome Back" FontSize="28" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
                     <TextBlock Text="Please login to your account" FontSize="14" Foreground="Gray" Margin="0,0,0,40"/>
 
@@ -52,6 +64,34 @@
                     </Button>
 
                     <TextBlock x:Name="txtConnectionStatus" Text="Checking connection..." Margin="0,20,0,0" HorizontalAlignment="Center" Foreground="Gray" TextWrapping="Wrap" FontSize="12"/>
+                </StackPanel>
+
+                <!-- DB Settings Panel (Hidden by default) -->
+                <StackPanel x:Name="pnlSettings" VerticalAlignment="Center" Visibility="Collapsed">
+                    <TextBlock Text="Database Configuration" FontSize="24" FontWeight="Bold" Foreground="#333" Margin="0,0,0,20"/>
+
+                    <TextBlock Text="Server Host" Foreground="Gray" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtDbServer" Padding="8" FontSize="14" BorderThickness="0,0,0,1" BorderBrush="LightGray" Margin="0,0,0,15" Background="Transparent"/>
+
+                    <TextBlock Text="Database Name" Foreground="Gray" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtDbName" Padding="8" FontSize="14" BorderThickness="0,0,0,1" BorderBrush="LightGray" Margin="0,0,0,15" Background="Transparent"/>
+
+                    <TextBlock Text="Username" Foreground="Gray" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtDbUser" Padding="8" FontSize="14" BorderThickness="0,0,0,1" BorderBrush="LightGray" Margin="0,0,0,15" Background="Transparent"/>
+
+                    <TextBlock Text="Password" Foreground="Gray" Margin="0,0,0,5"/>
+                    <PasswordBox x:Name="txtDbPassword" Padding="8" FontSize="14" BorderThickness="0,0,0,1" BorderBrush="LightGray" Margin="0,0,0,25" Background="Transparent"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Cancel" Click="BtnCancelSettings_Click" Padding="15,8" Background="Transparent" Foreground="Gray" BorderThickness="0" Margin="0,0,10,0"/>
+                        <Button Content="Save &amp; Connect" Click="BtnSaveSettings_Click" Padding="15,8" Background="{StaticResource PrimaryGreen}" Foreground="White" FontWeight="Bold" BorderThickness="0">
+                             <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Grid>

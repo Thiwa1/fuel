@@ -1,18 +1,23 @@
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Microsoft.EntityFrameworkCore;
 using WpfApp1.Data;
 using WpfApp1.Models;
+using WpfApp1.Services;
 
 namespace WpfApp1
 {
     public partial class LoginWindow : Window
     {
+        private readonly DatabaseConfigService _dbConfigService;
+
         public LoginWindow()
         {
             InitializeComponent();
+            _dbConfigService = new DatabaseConfigService();
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -22,6 +27,15 @@ namespace WpfApp1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            CheckDatabaseConnection();
+        }
+
+        private void CheckDatabaseConnection()
+        {
+            txtConnectionStatus.Text = "Checking connection...";
+            txtConnectionStatus.Foreground = Brushes.Gray;
+            btnLogin.IsEnabled = false;
+
             try
             {
                 using (var context = new PayBillDbContext())
@@ -37,6 +51,7 @@ namespace WpfApp1
                             var count = context.Logins.Count();
                             txtConnectionStatus.Text = "Connected to Database";
                             txtConnectionStatus.Foreground = Brushes.Green;
+                            btnLogin.IsEnabled = true;
                         }
                         catch (Exception ex) when (ex.Message.Contains("doesn't exist") || ex.InnerException?.Message.Contains("doesn't exist") == true)
                         {
@@ -63,8 +78,9 @@ namespace WpfApp1
                                 context.Database.ExecuteSqlRaw(createTableSql);
                                 context.Database.ExecuteSqlRaw(insertAdminSql);
 
-                                txtConnectionStatus.Text = "Connected to Database (Table 'logins' created)";
+                                txtConnectionStatus.Text = "Connected (Table 'logins' created)";
                                 txtConnectionStatus.Foreground = Brushes.Green;
+                                btnLogin.IsEnabled = true;
                             }
                             catch (Exception createEx)
                             {
@@ -85,14 +101,13 @@ namespace WpfApp1
                 // General connection error
                 if (ex.Message.Contains("Access denied"))
                 {
-                     txtConnectionStatus.Text = "Access Denied: Check username/password in appsettings.json";
+                     txtConnectionStatus.Text = "Access Denied: Check username/password in Database Settings.";
                 }
                 else
                 {
                      txtConnectionStatus.Text = $"Connection Failed: {ex.Message}";
                 }
                 txtConnectionStatus.Foreground = Brushes.Red;
-                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -130,6 +145,54 @@ namespace WpfApp1
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnToggleSettings_Click(object sender, RoutedEventArgs e)
+        {
+            pnlLogin.Visibility = Visibility.Collapsed;
+            pnlSettings.Visibility = Visibility.Visible;
+            btnToggleSettings.Visibility = Visibility.Collapsed;
+
+            // Load current settings
+            var builder = _dbConfigService.GetConnectionStringBuilder();
+            txtDbServer.Text = builder.Server;
+            txtDbName.Text = builder.Database;
+            txtDbUser.Text = builder.UserID;
+            txtDbPassword.Password = builder.Password;
+        }
+
+        private void BtnCancelSettings_Click(object sender, RoutedEventArgs e)
+        {
+            pnlSettings.Visibility = Visibility.Collapsed;
+            pnlLogin.Visibility = Visibility.Visible;
+            btnToggleSettings.Visibility = Visibility.Visible;
+        }
+
+        private void BtnSaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _dbConfigService.SaveConnectionString(
+                    txtDbServer.Text,
+                    txtDbName.Text,
+                    txtDbUser.Text,
+                    txtDbPassword.Password
+                );
+
+                MessageBox.Show("Configuration saved successfully. Testing connection...", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Switch back to login
+                pnlSettings.Visibility = Visibility.Collapsed;
+                pnlLogin.Visibility = Visibility.Visible;
+                btnToggleSettings.Visibility = Visibility.Visible;
+
+                // Test connection
+                CheckDatabaseConnection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving configuration: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
