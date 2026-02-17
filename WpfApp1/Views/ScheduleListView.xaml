@@ -25,6 +25,7 @@
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}" Width="150"/>
+                <DataGridTextColumn Header="Total Amount" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="150"/>
                 <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="200"/>
                 <DataGridTemplateColumn Width="100">
                     <DataGridTemplateColumn.CellTemplate>

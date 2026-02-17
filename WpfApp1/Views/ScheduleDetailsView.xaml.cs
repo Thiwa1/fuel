@@ -44,6 +44,9 @@ namespace WpfApp1.Views
 
                     var payments = query.OrderBy(p => p.Employee.CallingName).ToList();
                     dgPayments.ItemsSource = payments;
+
+                    var total = payments.Sum(p => p.Amount);
+                    txtTotalAmount.Text = total.ToString("N2");
                 }
             }
             catch (Exception ex)
