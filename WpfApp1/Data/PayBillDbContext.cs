@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using WpfApp1.Models;
 
 namespace WpfApp1.Data
@@ -10,6 +12,7 @@ namespace WpfApp1.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Paysheet> Paysheets { get; set; }
+        public DbSet<Login> Logins { get; set; }
 
         public PayBillDbContext()
         {
@@ -24,9 +27,18 @@ namespace WpfApp1.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // Placeholder connection string. Update with actual credentials.
-                optionsBuilder.UseMySql("server=localhost;database=pay_bill;user=root;password=password",
-                    new MySqlServerVersion(new Version(8, 0, 21)));
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+                var configuration = builder.Build();
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    optionsBuilder.UseMySql(connectionString,
+                        new MySqlServerVersion(new Version(8, 0, 21)));
+                }
             }
         }
 
@@ -50,6 +62,11 @@ namespace WpfApp1.Data
             // Schedules
             modelBuilder.Entity<Schedule>()
                 .HasIndex(s => s.Name)
+                .IsUnique();
+
+            // Logins
+            modelBuilder.Entity<Login>()
+                .HasIndex(l => l.Username)
                 .IsUnique();
 
             // Payments Foreign Keys (already defined via attributes, but reinforcing is good or just rely on attributes)

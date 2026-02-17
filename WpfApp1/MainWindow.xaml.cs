@@ -20,5 +20,11 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+
+        private void btnAddEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            AddEmployeeWindow addEmployeeWindow = new AddEmployeeWindow();
+            addEmployeeWindow.ShowDialog();
+        }
     }
 }
