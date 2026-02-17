@@ -132,8 +132,8 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Insert default admin user
 -- -----------------------------------------------------
 INSERT INTO `pay_bill`.`logins` (`username`, `password`, `role`)
-VALUES ('admin', 'admin123', 'admin')
-ON DUPLICATE KEY UPDATE `password` = 'admin123';
+VALUES ('Admin', '123456', 'admin')
+ON DUPLICATE KEY UPDATE `password` = '123456';
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
