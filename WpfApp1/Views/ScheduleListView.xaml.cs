@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,9 +9,12 @@ namespace WpfApp1.Views
 {
     public partial class ScheduleListView : UserControl
     {
-        public ScheduleListView()
+        private Action<int> _navigateToDetails;
+
+        public ScheduleListView(Action<int> navigateToDetails = null)
         {
             InitializeComponent();
+            _navigateToDetails = navigateToDetails;
             LoadSchedules();
         }
 
@@ -34,6 +38,14 @@ namespace WpfApp1.Views
             if (addWindow.ShowDialog() == true)
             {
                 LoadSchedules();
+            }
+        }
+
+        private void btnDetails_Click(object sender, RoutedEventArgs e)
+        {
+            if (_navigateToDetails != null && sender is Button btn && btn.DataContext is Schedule schedule)
+            {
+                _navigateToDetails(schedule.Id);
             }
         }
     }

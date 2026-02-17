@@ -29,6 +29,13 @@
                 <DataGridTextColumn Header="NIC" Binding="{Binding NicNo}" Width="100"/>
                 <DataGridTextColumn Header="Account Number" Binding="{Binding AccountNumber}" Width="120"/>
                 <DataGridTextColumn Header="Area" Binding="{Binding Area}" Width="*"/>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="View History" Click="btnHistory_Click" Padding="5,2" Background="#007B5E" Foreground="White" BorderThickness="0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

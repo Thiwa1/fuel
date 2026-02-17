@@ -26,6 +26,13 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat=d}" Width="150"/>
                 <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="200"/>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="View Details" Click="btnDetails_Click" Padding="5,2" Background="#007B5E" Foreground="White" BorderThickness="0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

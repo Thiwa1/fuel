@@ -58,5 +58,14 @@ namespace WpfApp1.Views
         {
              LoadData(txtSearch.Text);
         }
+
+        private void btnHistory_Click(object sender, RoutedEventArgs e)
+        {
+             if (sender is Button btn && btn.DataContext is Employee emp)
+             {
+                 var historyWindow = new EmployeePaymentHistoryWindow(emp.Id);
+                 historyWindow.ShowDialog();
+             }
+        }
     }
 }
