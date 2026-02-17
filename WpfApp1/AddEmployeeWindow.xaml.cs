@@ -37,6 +37,7 @@ namespace WpfApp1
                     context.SaveChanges();
 
                     MessageBox.Show("Employee added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    DialogResult = true;
                     this.Close();
                 }
             }
