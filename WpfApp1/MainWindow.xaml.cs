@@ -26,5 +26,11 @@ namespace WpfApp1
             AddEmployeeWindow addEmployeeWindow = new AddEmployeeWindow();
             addEmployeeWindow.ShowDialog();
         }
+
+        private void btnAddSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            AddScheduleWindow addScheduleWindow = new AddScheduleWindow();
+            addScheduleWindow.ShowDialog();
+        }
     }
 }
