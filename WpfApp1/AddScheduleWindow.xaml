@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Add Schedule" Height="250" Width="350" WindowStartupLocation="CenterScreen">
+        Title="Add Schedule" Height="250" Width="350" WindowStartupLocation="CenterScreen" Icon="/bpo.jpg">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
