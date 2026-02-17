@@ -22,8 +22,18 @@ namespace WpfApp1
                 {
                     if (context.Database.CanConnect())
                     {
-                        txtConnectionStatus.Text = "Connected to Database";
-                        txtConnectionStatus.Foreground = Brushes.Green;
+                        // Check if the logins table exists by trying to count records
+                        try
+                        {
+                            var count = context.Logins.Count();
+                            txtConnectionStatus.Text = "Connected to Database";
+                            txtConnectionStatus.Foreground = Brushes.Green;
+                        }
+                        catch (Exception ex) when (ex.Message.Contains("doesn't exist") || ex.InnerException?.Message.Contains("doesn't exist") == true)
+                        {
+                            txtConnectionStatus.Text = "Database connected, but 'logins' table missing. Run pay_bill.sql.";
+                            txtConnectionStatus.Foreground = Brushes.Red;
+                        }
                     }
                     else
                     {
@@ -34,9 +44,16 @@ namespace WpfApp1
             }
             catch (Exception ex)
             {
-                txtConnectionStatus.Text = $"Connection Failed: {ex.Message}";
+                // General connection error
+                if (ex.Message.Contains("Access denied"))
+                {
+                     txtConnectionStatus.Text = "Access Denied: Check username/password in appsettings.json";
+                }
+                else
+                {
+                     txtConnectionStatus.Text = $"Connection Failed: {ex.Message}";
+                }
                 txtConnectionStatus.Foreground = Brushes.Red;
-                // Log the full exception details if logging were implemented
                 Console.WriteLine(ex.ToString());
             }
         }
