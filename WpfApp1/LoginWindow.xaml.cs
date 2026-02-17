@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using Microsoft.EntityFrameworkCore;
 using WpfApp1.Data;
 using WpfApp1.Models;
 
@@ -22,7 +23,10 @@ namespace WpfApp1
                 {
                     if (context.Database.CanConnect())
                     {
-                        // Check if the logins table exists by trying to count records
+                        // Try to ensure database is created if it doesn't exist
+                        context.Database.EnsureCreated();
+
+                        // Check if the logins table exists/works
                         try
                         {
                             var count = context.Logins.Count();
@@ -31,8 +35,37 @@ namespace WpfApp1
                         }
                         catch (Exception ex) when (ex.Message.Contains("doesn't exist") || ex.InnerException?.Message.Contains("doesn't exist") == true)
                         {
-                            txtConnectionStatus.Text = "Database connected, but 'logins' table missing. Run pay_bill.sql.";
-                            txtConnectionStatus.Foreground = Brushes.Red;
+                            // If table is missing despite EnsureCreated (e.g. existing DB without table), create it manually
+                            try
+                            {
+                                string createTableSql = @"
+                                    CREATE TABLE IF NOT EXISTS `logins` (
+                                      `id` INT NOT NULL AUTO_INCREMENT,
+                                      `username` VARCHAR(50) NOT NULL,
+                                      `password` VARCHAR(255) NOT NULL,
+                                      `role` VARCHAR(50) NULL,
+                                      PRIMARY KEY (`id`),
+                                      UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE)
+                                    ENGINE = InnoDB
+                                    DEFAULT CHARACTER SET = utf8mb4
+                                    COLLATE = utf8mb4_0900_ai_ci;";
+
+                                string insertAdminSql = @"
+                                    INSERT INTO `logins` (`username`, `password`, `role`)
+                                    VALUES ('Admin', '123456', 'admin')
+                                    ON DUPLICATE KEY UPDATE `password` = '123456';";
+
+                                context.Database.ExecuteSqlRaw(createTableSql);
+                                context.Database.ExecuteSqlRaw(insertAdminSql);
+
+                                txtConnectionStatus.Text = "Connected to Database (Table 'logins' created)";
+                                txtConnectionStatus.Foreground = Brushes.Green;
+                            }
+                            catch (Exception createEx)
+                            {
+                                txtConnectionStatus.Text = $"Failed to create table: {createEx.Message}";
+                                txtConnectionStatus.Foreground = Brushes.Red;
+                            }
                         }
                     }
                     else

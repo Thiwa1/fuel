@@ -69,6 +69,11 @@ namespace WpfApp1.Data
                 .HasIndex(l => l.Username)
                 .IsUnique();
 
+            // Seed Admin User
+            modelBuilder.Entity<Login>().HasData(
+                new Login { Id = 1, Username = "Admin", Password = "123456", Role = "admin" }
+            );
+
             // Payments Foreign Keys (already defined via attributes, but reinforcing is good or just rely on attributes)
             // Attributes are usually enough for simple FKs.
         }
