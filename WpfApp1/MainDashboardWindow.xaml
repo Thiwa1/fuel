@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
         Title="Pay Bill System - Pro" Height="650" Width="1000" WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
+        Background="#F5F5F5" Icon="/bpo.jpg">
 
     <Window.Resources>
 
