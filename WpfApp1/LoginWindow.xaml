@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="Login" Height="350" Width="400" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
-        Title="Login" Height="300" Width="400" WindowStartupLocation="CenterScreen" Icon="/bpo.jpg">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
