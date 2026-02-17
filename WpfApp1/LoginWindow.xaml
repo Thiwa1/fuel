@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
+        Title="Login" Height="350" Width="400" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
         Title="Login" Height="300" Width="400" WindowStartupLocation="CenterScreen" Icon="/bpo.jpg">
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -25,5 +27,7 @@
         <PasswordBox Grid.Row="4" x:Name="txtPassword" Margin="0,0,0,20" Padding="5"/>
 
         <Button Grid.Row="5" x:Name="btnLogin" Content="Login" Click="btnLogin_Click" Height="30" Width="100" HorizontalAlignment="Center"/>
+
+        <TextBlock Grid.Row="6" x:Name="txtConnectionStatus" Text="Checking connection..." Margin="0,10,0,0" HorizontalAlignment="Center" Foreground="Gray" TextWrapping="Wrap"/>
     </Grid>
 </Window>
