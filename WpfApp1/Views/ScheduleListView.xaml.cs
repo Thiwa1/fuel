@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using WpfApp1.Data;
 using WpfApp1.Models;
+using WpfApp1.ViewModels;
 
 namespace WpfApp1.Views
 {
@@ -20,10 +21,29 @@ namespace WpfApp1.Views
 
         private void LoadSchedules()
         {
-            using (var context = new PayBillDbContext())
+            try
             {
-                var schedules = context.Schedules.OrderByDescending(s => s.Date).ToList();
-                dgSchedules.ItemsSource = schedules;
+                using (var context = new PayBillDbContext())
+                {
+                    // Use projection to calculate total amount for each schedule
+                    var schedules = context.Schedules
+                        .Select(s => new ScheduleViewModel
+                        {
+                            Id = s.Id,
+                            Name = s.Name,
+                            Date = s.Date,
+                            CreatedAt = s.CreatedAt,
+                            TotalAmount = context.Payments.Where(p => p.ScheduleId == s.Id).Sum(p => p.Amount)
+                        })
+                        .OrderByDescending(s => s.Date)
+                        .ToList();
+
+                    dgSchedules.ItemsSource = schedules;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading schedules: {ex.Message}");
             }
         }
 
@@ -43,7 +63,7 @@ namespace WpfApp1.Views
 
         private void btnDetails_Click(object sender, RoutedEventArgs e)
         {
-            if (_navigateToDetails != null && sender is Button btn && btn.DataContext is Schedule schedule)
+            if (_navigateToDetails != null && sender is Button btn && btn.DataContext is ScheduleViewModel schedule)
             {
                 _navigateToDetails(schedule.Id);
             }
