@@ -31,8 +31,21 @@ namespace WpfApp1
 
         private void BtnSchedules_Click(object sender, RoutedEventArgs e)
         {
+            ShowSchedules();
+        }
+
+        private void ShowSchedules()
+        {
             txtPageTitle.Text = "Schedules";
-            contentArea.Content = new ScheduleListView();
+            // Pass navigation callback
+            contentArea.Content = new ScheduleListView(NavigateToScheduleDetails);
+        }
+
+        private void NavigateToScheduleDetails(int scheduleId)
+        {
+            txtPageTitle.Text = "Schedule Details";
+            // Pass back navigation callback
+            contentArea.Content = new ScheduleDetailsView(scheduleId, ShowSchedules);
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)

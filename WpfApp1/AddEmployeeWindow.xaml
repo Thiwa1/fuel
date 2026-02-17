@@ -34,7 +34,7 @@
         <TextBox Grid.Row="2" Grid.Column="1" x:Name="txtEmployeeNumber" Margin="5"/>
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Bank:" Margin="5"/>
-        <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtBank" Margin="5"/>
+        <TextBox Grid.Row="3" Grid.Column="1" x:Name="txtBank" Margin="5" TextChanged="Validation_TextChanged"/>
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Branch:" Margin="5"/>
         <TextBox Grid.Row="4" Grid.Column="1" x:Name="txtBranch" Margin="5"/>
@@ -43,7 +43,10 @@
         <TextBox Grid.Row="5" Grid.Column="1" x:Name="txtNicNo" Margin="5"/>
 
         <TextBlock Grid.Row="6" Grid.Column="0" Text="Account Number:" Margin="5"/>
-        <TextBox Grid.Row="6" Grid.Column="1" x:Name="txtAccountNumber" Margin="5"/>
+        <StackPanel Grid.Row="6" Grid.Column="1">
+            <TextBox x:Name="txtAccountNumber" Margin="5" TextChanged="Validation_TextChanged"/>
+            <TextBlock x:Name="txtValidationMessage" FontSize="11" Foreground="Red" Margin="5,0,0,0"/>
+        </StackPanel>
 
         <TextBlock Grid.Row="7" Grid.Column="0" Text="Area:" Margin="5"/>
         <TextBox Grid.Row="7" Grid.Column="1" x:Name="txtArea" Margin="5"/>
