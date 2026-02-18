@@ -4,9 +4,9 @@ using WpfApp1.Views;
 
 namespace WpfApp1
 {
-    public partial class MainWindow : Window
+    public partial class MainDashboardWindow : Window
     {
-        public MainWindow()
+        public MainDashboardWindow()
         {
             InitializeComponent();
             ShowDashboard();
