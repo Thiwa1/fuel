@@ -132,7 +132,7 @@ namespace WpfApp1
 
                     if (user != null)
                     {
-                        MainWindow mainWindow = new MainWindow();
+                        MainDashboardWindow mainWindow = new MainDashboardWindow();
                         mainWindow.Show();
                         this.Close();
                     }
