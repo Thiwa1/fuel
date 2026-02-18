@@ -50,7 +50,7 @@ namespace WpfApp1
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
-            LoginWindow login = new LoginWindow();
+            AppLoginWindow login = new AppLoginWindow();
             login.Show();
             this.Close();
         }

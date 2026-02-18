@@ -10,11 +10,11 @@ using WpfApp1.Services;
 
 namespace WpfApp1
 {
-    public partial class LoginWindow : Window
+    public partial class AppLoginWindow : Window
     {
         private readonly DatabaseConfigService _dbConfigService;
 
-        public LoginWindow()
+        public AppLoginWindow()
         {
             InitializeComponent();
             _dbConfigService = new DatabaseConfigService();
