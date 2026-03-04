@@ -104,6 +104,19 @@ namespace WpfApp1.Views
 
                     if (employees.TryGetValue(colA, out var emp))
                     {
+                        string status = "Ready";
+
+                        // Valid amounts based on the Fuel Structure rules
+                        var validAmounts = new[] { 4000m, 8000m, 10000m, 15000m, 16000m };
+                        if (!validAmounts.Contains(amount))
+                        {
+                            status = "Invalid Amount Condition";
+                        }
+                        else if ((amount == 15000m || amount == 10000m) && (string.IsNullOrEmpty(emp.Branch) || emp.Branch.IndexOf("Diyathalawa", StringComparison.OrdinalIgnoreCase) < 0))
+                        {
+                            status = $"Rs. {amount:N0} only for Diyathalawa";
+                        }
+
                         _previewItems.Add(new PaymentPreviewItem
                         {
                             EmployeeNumber = colA,
@@ -111,7 +124,7 @@ namespace WpfApp1.Views
                             Name = emp.CallingName,
                             AccountNumber = emp.AccountNumber,
                             Amount = amount,
-                            Status = "Ready"
+                            Status = status
                         });
                     }
                     else

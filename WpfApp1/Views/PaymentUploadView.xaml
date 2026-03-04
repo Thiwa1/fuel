@@ -28,14 +28,12 @@
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
                 <DataGridTextColumn Header="Account Number" Binding="{Binding AccountNumber}" Width="120"/>
                 <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat={}{0:N2}}" Width="100"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="150">
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="300">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Status}" Value="Not Found">
-                                    <Setter Property="Foreground" Value="Red"/>
-                                    <Setter Property="FontWeight" Value="Bold"/>
-                                </DataTrigger>
                                 <DataTrigger Binding="{Binding Status}" Value="Ready">
                                     <Setter Property="Foreground" Value="Green"/>
                                     <Setter Property="FontWeight" Value="Bold"/>
